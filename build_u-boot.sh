@@ -21,10 +21,10 @@ UBOOT="v2025.01-Beagle"
 if [ ! -d ./ti-linux-firmware/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${TI_FIRMWARE} https://git.gfnd.rcn-ee.org/TexasInstruments/ti-linux-firmware.git"
-		git clone -b ${TI_FIRMWARE} https://git.gfnd.rcn-ee.org/TexasInstruments/ti-linux-firmware.git --depth=10
+		git clone -b ${TI_FIRMWARE} https://git.gfnd.rcn-ee.org/TexasInstruments/ti-linux-firmware.git --depth=10 ./ti-linux-firmware/
 	else
 		echo "git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git"
-		git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git --depth=10
+		git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git --depth=10 ./ti-linux-firmware/
 	fi
 fi
 
@@ -32,10 +32,10 @@ fi
 if [ ! -d ./trusted-firmware-a/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${TRUSTED_FIRMWARE} https://git.gfnd.rcn-ee.org/mirror/trusted-firmware-a.git"
-		git clone -b ${TRUSTED_FIRMWARE} https://git.gfnd.rcn-ee.org/mirror/trusted-firmware-a.git --depth=10
+		git clone -b ${TRUSTED_FIRMWARE} https://git.gfnd.rcn-ee.org/mirror/trusted-firmware-a.git --depth=10 ./trusted-firmware-a/
 	else
 		echo "git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git"
-		git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git --depth=10
+		git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git --depth=10 ./trusted-firmware-a/
 	fi
 fi
 
@@ -43,21 +43,22 @@ fi
 if [ ! -d ./optee_os/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${OPTEE} https://git.gfnd.rcn-ee.org/mirror/optee_os.git"
-		git clone -b ${OPTEE} https://git.gfnd.rcn-ee.org/mirror/optee_os.git --depth=10
+		git clone -b ${OPTEE} https://git.gfnd.rcn-ee.org/mirror/optee_os.git --depth=10 ./optee_os/
 	else
 		echo "git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git"
-		git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git --depth=10
+		git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git --depth=10 ./optee_os/
 	fi
 fi
 
 if [ -d ./u-boot/ ] ; then
 	rm -rf ./u-boot/
 fi
-echo "git clone -b ${UBOOT} https://github.com/beagleboard/u-boot.git"
-git clone -b ${UBOOT} https://github.com/beagleboard/u-boot.git
 
-#echo "git clone https://git.gfnd.rcn-ee.org/mirror/u-boot.git"
-#git clone https://git.gfnd.rcn-ee.org/mirror/u-boot.git
+global="https://github.com/beagleboard/u-boot.git"
+mirror="${global}"
+
+echo "git clone -b ${UBOOT} ${mirror} --depth=10 ./u-boot/"
+git clone -b ${UBOOT} ${mirror} --depth=10 ./u-boot/
 
 #echo "*************************************************"
 #cd ./u-boot/
@@ -80,7 +81,7 @@ SOC_NAME=am62x
 SECURITY_TYPE=gp
 SIGNED=_unsigned
 TFA_BOARD=lite
-OPTEE_PLATFORM=k3-am62x
+OPTEE_PLATFORM="k3-am62x"
 OPTEE_EXTRA_ARGS="CFG_WITH_SOFTWARE_PRNG=y"
 UBOOT_CFG_CORTEXR="am62x_beagleplay_r5_defconfig"
 UBOOT_CFG_CORTEXA="am62x_beagleplay_a53_defconfig"
