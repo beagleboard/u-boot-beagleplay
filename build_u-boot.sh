@@ -12,10 +12,10 @@ ${CC64}gcc --version
 
 DIR=$PWD
 
-TI_FIRMWARE="10.01.10"
-TRUSTED_FIRMWARE="v2.12.0"
-OPTEE="4.4.0"
-UBOOT="v2025.01-Beagle"
+TI_FIRMWARE="11.00.07"
+TRUSTED_FIRMWARE="lts-v2.12.1"
+OPTEE="4.5.0"
+UBOOT="v2025.04-rc3-Beagle"
 
 #rm -rf ./ti-linux-firmware/ || true
 if [ ! -d ./ti-linux-firmware/ ] ; then
@@ -65,12 +65,6 @@ git clone -b ${UBOOT} ${mirror} --depth=10 ./u-boot/
 #git bisect start
 #git bisect good 3f772959501c99fbe5aa0b22a36efe3478d1ae1c
 #git bisect bad 123f6f75dfcb5f88d821e4eb91ddedfb7718d601
-#git bisect bad 005105b11cefe694dcd40572639973fbb9b31646
-#git bisect bad d8c213c9c7f827a9de0096bb4e5247c9a07bb248
-#git bisect good bf3d5baa868a658d4625aaf177096751b8597891
-#git bisect good 99ebe211690528cd988bb57e90b9d6a7922ebd46
-#git bisect bad 0beb6f68ba2cb5e8eb4672c37ede21d17b7090e5
-#git bisect good 0786dd573d0793417852e009dee3148ebdd163f3
 #cd ${DIR}/
 #echo "*************************************************"
 
@@ -80,7 +74,7 @@ mkdir -p ${DIR}/public/
 SOC_NAME=am62x
 SECURITY_TYPE=gp
 SIGNED=_unsigned
-TFA_BOARD=lite
+TFA_BOARD="lite"
 OPTEE_PLATFORM="k3-am62x"
 OPTEE_EXTRA_ARGS="CFG_WITH_SOFTWARE_PRNG=y"
 UBOOT_CFG_CORTEXR="am62x_beagleplay_r5_defconfig"
