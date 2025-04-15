@@ -12,19 +12,19 @@ ${CC64}gcc --version
 
 DIR=$PWD
 
-TI_FIRMWARE="11.00.08"
+TI_FIRMWARE="11.00.10"
 TRUSTED_FIRMWARE="lts-v2.12.1"
-OPTEE="4.5.0"
-UBOOT="v2025.04-rc5-Beagle"
+OPTEE="4.6.0-rc1"
+UBOOT="v2025.04-Beagle"
 
 #rm -rf ./ti-linux-firmware/ || true
 if [ ! -d ./ti-linux-firmware/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${TI_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/TexasInstruments/ti-linux-firmware.git"
-		git clone -b ${TI_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/TexasInstruments/ti-linux-firmware.git --depth=10 ./ti-linux-firmware/
+		git clone -b ${TI_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/TexasInstruments/ti-linux-firmware.git --depth=1 ./ti-linux-firmware/
 	else
 		echo "git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git"
-		git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git --depth=10 ./ti-linux-firmware/
+		git clone -b ${TI_FIRMWARE} https://github.com/beagleboard/ti-linux-firmware.git --depth=1 ./ti-linux-firmware/
 	fi
 fi
 
@@ -32,10 +32,10 @@ fi
 if [ ! -d ./trusted-firmware-a/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${TRUSTED_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/trusted-firmware-a.git"
-		git clone -b ${TRUSTED_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/trusted-firmware-a.git --depth=10 ./trusted-firmware-a/
+		git clone -b ${TRUSTED_FIRMWARE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/trusted-firmware-a.git --depth=1 ./trusted-firmware-a/
 	else
 		echo "git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git"
-		git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git --depth=10 ./trusted-firmware-a/
+		git clone -b ${TRUSTED_FIRMWARE} https://github.com/TrustedFirmware-A/trusted-firmware-a.git --depth=1 ./trusted-firmware-a/
 	fi
 fi
 
@@ -43,10 +43,10 @@ fi
 if [ ! -d ./optee_os/ ] ; then
 	if [ -f .gitlab-runner ] ; then
 		echo "git clone -b ${OPTEE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/optee_os.git"
-		git clone -b ${OPTEE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/optee_os.git --depth=10 ./optee_os/
+		git clone -b ${OPTEE} http://forgejo.gfnd.rcn-ee.org:3000/mirror/optee_os.git --depth=1 ./optee_os/
 	else
 		echo "git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git"
-		git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git --depth=10 ./optee_os/
+		git clone -b ${OPTEE} https://github.com/OP-TEE/optee_os.git --depth=1 ./optee_os/
 	fi
 fi
 
@@ -59,14 +59,6 @@ mirror="${global}"
 
 echo "git clone -b ${UBOOT} ${mirror} --depth=10 ./u-boot/"
 git clone -b ${UBOOT} ${mirror} --depth=10 ./u-boot/
-
-#echo "*************************************************"
-#cd ./u-boot/
-#git bisect start
-#git bisect good 3f772959501c99fbe5aa0b22a36efe3478d1ae1c
-#git bisect bad 123f6f75dfcb5f88d821e4eb91ddedfb7718d601
-#cd ${DIR}/
-#echo "*************************************************"
 
 mkdir -p ${DIR}/public/
 
