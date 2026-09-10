@@ -45,8 +45,6 @@ report_and_compare() {
 			else status="UNCHANGED"; fi
 		fi
 
-		echo "[$status] $label: ${current_bytes}B"
-		# Changed summary format to remove diff_kb: label|current_bytes|diff_bytes|status
 		echo "${label}|${current_bytes}|${diff_bytes}|${status}" >> "$summary_file"
 		echo "${label}:${current_bytes}" >> "$new_sizes_file"
 	fi
@@ -160,8 +158,7 @@ fi
 TFA_OUTPUT="./trusted-firmware-a/build/k3/${TFA_BOARD}/release/bl31.bin"
 
 if [ -f "$TFA_OUTPUT" ]; then
-	SIZE_B=$(stat -c%s "$TFA_OUTPUT")
-	echo "TFA Output found: $TFA_OUTPUT (${SIZE_B} B)"
+	echo "TFA Output found: $TFA_OUTPUT"
 	cp -v "$TFA_OUTPUT" "${DIR}/public/"
 	report_and_compare "$TFA_OUTPUT" "TFA_BL31"
 else
@@ -190,8 +187,7 @@ fi
 
 TEE_PAGER="./optee/core/tee-pager_v2.bin"
 if [ -f "$TEE_PAGER" ]; then
-	SIZE_B=$(stat -c%s "$TEE_PAGER")
-	echo "OP-TEE Pager found: $TEE_PAGER (${SIZE_B} B)"
+	echo "OP-TEE Pager found: $TEE_PAGER"
 	cp -v "$TEE_PAGER" "${DIR}/public/"
 	report_and_compare "$TEE_PAGER" "OPTEE_PAGER"
 else
@@ -220,14 +216,12 @@ TIBOOT3_BIN="${DIR}/${build_dir}/tiboot3-${SOC_NAME}-${SECURITY_TYPE}-evm.bin"
 SYSFW_ITB="${DIR}/${build_dir}/sysfw-${SOC_NAME}-${SECURITY_TYPE}-evm.itb"
 
 if [ -f "$TIBOOT3_BIN" ]; then
-	SIZE_B=$(stat -c%s "$TIBOOT3_BIN")
-	echo "${build_label} Bin found: $TIBOOT3_BIN (${SIZE_B} B)"
+	echo "${build_label} Bin found: $TIBOOT3_BIN"
 	cp -v "$TIBOOT3_BIN" "${DIR}/public/tiboot3.bin"
 	report_and_compare "$TIBOOT3_BIN" "TIBOOT3_BIN"
 
 	if [ -f "$SYSFW_ITB" ]; then
-		SIZE_B=$(stat -c%s "$SYSFW_ITB")
-		echo "${build_label} ITB found: $SYSFW_ITB (${SIZE_B} B)"
+		echo "${build_label} ITB found: $SYSFW_ITB"
 		cp -v "$SYSFW_ITB" "${DIR}/public/sysfw.itb"
 		report_and_compare "$SYSFW_ITB" "SYSFW_ITB"
 	fi
