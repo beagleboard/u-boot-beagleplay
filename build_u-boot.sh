@@ -278,24 +278,24 @@ rm -rf "${DIR}/${build_dir}/"
 
 log_sep
 echo "FINAL BUILD SIZE REPORT"
-printf "%-15s | %-12s | %-12s | %-10s\n" "COMPONENT" "SIZE (B)" "DIFF (B)" "STATUS"
-echo "------------------------------------------------------------------------------------"
+printf "%-15s | %-12s | %-12s | %-12s | %-10s\n" "COMPONENT" "SIZE (KB)" "SIZE (B)" "DIFF (B)" "STATUS"
+echo "----------------------------------------------------------------------------------------------------"
 
 if [ -f ".build_summary.tmp" ]; then
 	while IFS='|' read -r label current_bytes diff_bytes status; do
-		# Format the diff string to show +/-
+		current_kb=$(( current_bytes / 1024 ))
+
 		if [ "$diff_bytes" -gt 0 ]; then
 			diff_str="+${diff_bytes}B"
 		elif [ "$diff_bytes" -lt 0 ]; then
-			# Use absolute value for display
 			abs_diff_b=$(( (diff_bytes * -1) ))
 			diff_str="-${abs_diff_b}B"
 		else
 			diff_str="0B"
 		fi
 
-		printf "%-15s | %-12s | %-12s | %-10s\n" \
-			"$label" "${current_bytes}B" "$diff_str" "$status"
+		printf "%-15s | %-12s | %-12s | %-12s | %-10s\n" \
+			"$label" "${current_kb}KB" "${current_bytes}B" "$diff_str" "$status"
 	done < ".build_summary.tmp"
 
 	rm ".build_summary.tmp"
