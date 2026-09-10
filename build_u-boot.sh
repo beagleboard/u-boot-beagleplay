@@ -216,12 +216,12 @@ TIBOOT3_BIN="${DIR}/${build_dir}/tiboot3-${SOC_NAME}-${SECURITY_TYPE}-evm.bin"
 SYSFW_ITB="${DIR}/${build_dir}/sysfw-${SOC_NAME}-${SECURITY_TYPE}-evm.itb"
 
 if [ -f "$TIBOOT3_BIN" ]; then
-	echo "${build_label} Bin found: $TIBOOT3_BIN"
+	echo "${build_label} found: $TIBOOT3_BIN"
 	cp -v "$TIBOOT3_BIN" "${DIR}/public/tiboot3.bin"
 	report_and_compare "$TIBOOT3_BIN" "TIBOOT3_BIN"
 
 	if [ -f "$SYSFW_ITB" ]; then
-		echo "${build_label} ITB found: $SYSFW_ITB"
+		echo "${build_label} found: $SYSFW_ITB"
 		cp -v "$SYSFW_ITB" "${DIR}/public/sysfw.itb"
 		report_and_compare "$SYSFW_ITB" "SYSFW_ITB"
 	fi
@@ -255,11 +255,15 @@ if [ -f "${DIR}/public/bl31.bin" ] && [ -f "${DIR}/public/tee-pager_v2.bin" ]; t
 	UBOOT_IMG="${DIR}/${build_dir}/u-boot.img${SIGNED}"
 
 	if [ -f "$TISPL_BIN" ]; then
-		cp -v "$TISPL_BIN" "${DIR}/public/tispl.bin" || true
-		[ -f "$UBOOT_IMG" ] && cp -v "$UBOOT_IMG" "${DIR}/public/u-boot.img" || true
-
+		echo "${build_label} found: $TISPL_BIN"
+		cp -v "$TISPL_BIN" "${DIR}/public/tispl.bin"
 		report_and_compare "$TISPL_BIN" "TISPL_BIN"
-		[ -f "$UBOOT_IMG" ] && report_and_compare "$UBOOT_IMG" "UBOOT_IMG"
+
+		if [ -f "$UBOOT_IMG" ]; then
+			echo "${build_label} found: $UBOOT_IMG"
+			cp -v "$UBOOT_IMG" "${DIR}/public/u-boot.img"
+			report_and_compare "$UBOOT_IMG" "UBOOT_IMG"
+		fi
 	else
 		echo "Failure in u-boot ${build_label} build of [$UBOOT_CFG_CORTEXA]"
 		ls -lha "${DIR}/${build_dir}/"
